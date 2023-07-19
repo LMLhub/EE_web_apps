@@ -62,7 +62,7 @@ def coin_toss_experiment(N, T):
     return df
 
 def main():
-    st.title('The cooperating coin')
+#    st.title('The cooperating coin')
 
     # User inputs
     N = st.slider('Number of cooperators, N:', min_value=1, max_value=10)
