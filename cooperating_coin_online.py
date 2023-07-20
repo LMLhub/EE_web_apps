@@ -13,42 +13,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def coin_toss_experiment(N, T):
-    # Simulate coin tosses
-    # np.random.seed(0)
-    # results = np.random.choice([1, -1], size=num_tosses, p=[heads_probability, 1-heads_probability])
-    # cumulative_results = np.cumsum(results)
-
-    # # Calculate capital after each toss
-    # capital = starting_capital + gain * np.sum(results[results == 1]) - loss * np.sum(results[results == -1])
-    # # cumulative_capital = starting_capital + np.where(results == 1,gain*np.cumsum(results),loss*np.cumsum(results))
-    # cumulative_capital = starting_capital + np.cumsum(np.where(results == 1,gain*(results),loss*(results)))
-
 #    np.random.seed(127)
 
     factor = np.random.choice([0.6,1.5], size=(T, N))
-# factor_2_1=factor[:,0:1]
-# factor_2_2=factor[:,1:2]
-# factor_2_3=np.concatenate(factor[:,0],factor[:,2])
-
-#    toss=np.arange(T+1)
     x=np.ones([T+1,N])
-#x_2_1=np.ones([T+1,N-1])
-#x_2_2=np.ones([T+1,N-1])
-#x_2_3=np.ones([T+1,N-1])
     x_N=np.ones([T+1,N])
 
     for step in range(T):
         x[step+1,:]=x[step,:]*factor[step]
-    
-    # x_2_1[step+1,:]=x_2_1[step,:]*[factor[step,0],factor[step,1]]
-    # x_2_1[step+1,:]=np.mean(x_2_1[step+1,:])
-                                  
-    # x_2_2[step+1,:]=x_2_2[step,:]*[factor[step,1],factor[step,2]]
-    # x_2_2[step+1,:]=np.mean(x_2_2[step+1,:])
-    
-    # x_2_3[step+1,:]=x_2_3[step,:]*[factor[step,0],factor[step,2]]
-    # x_2_3[step+1,:]=np.mean(x_2_3[step+1,:])
-    
+
         x_N[step+1,:]=x_N[step,:]*factor[step]
         x_N[step+1,:]=np.mean(x_N[step+1,:])
     
@@ -62,8 +35,6 @@ def coin_toss_experiment(N, T):
     return df
 
 def main():
-#    st.title('The cooperating coin')
-
     # User inputs
     N = st.slider('Number of cooperators, N:', min_value=1, max_value=10)
     T = st.slider('Simulated rounds, T:', value=500,min_value=1,max_value=2000)
@@ -72,18 +43,13 @@ def main():
         results_df = coin_toss_experiment(N,T)
 
         # Display results
-#        st.subheader('Experiment Results')
-#        st.write(f'Final Capital: {capital}')
-#        st.dataframe(results_df)
         gt=.5*(np.log(1.5)+np.log(.6))
         ge=np.log(1.05)
-        # Plot capital over time
-#        st.subheader('wealth over time')
         fig, ax = plt.subplots()
         ax.xaxis.tick_top()
         ax.xaxis.set_label_position('top')
 
-# # Hide the bottom spine and ticks
+# Hide the bottom spine and ticks
         ax.spines['bottom'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.tick_params(axis='x', which='both', bottom=False, top=False)
@@ -92,57 +58,8 @@ def main():
         plt.semilogy(results_df['t'], np.exp(results_df['t']*gt),color='green')        
         plt.xlabel('time step (round)')
         plt.ylabel('wealth')
-#        plt.grid()
         st.pyplot(plt)
         
-           
-# # Plot
-# fig, ax = plt.subplots()
-# ax.xaxis.tick_top()
-# ax.xaxis.set_label_position('top')
-
-# # Hide the bottom spine and ticks
-# ax.spines['bottom'].set_visible(False)
-# ax.spines['right'].set_visible(False)
-# ax.tick_params(axis='x', which='both', bottom=False, top=False)
-
-
-
-# plt.semilogy(range(T+1), x, color='black')
-# plt.semilogy(range(T+1), x_3,color='blue')
-
-# plt.semilogy(range(T+1), x_2_1,color='green', linestyle='-')
-# plt.semilogy(range(T+1), x_2_2,color='green',linestyle='-')
-# plt.semilogy(range(T+1), x_2_3,color='green',linestyle='-')
-
-# re=np.log(.5*(1.5+.6))
-# r1=.5*(np.log(1.5)+np.log(.6))
-# r2=.5*np.log(1.05)+.25*np.log(1.5)+.25*np.log(.6)
-# r3=(3./8)*np.log(1.2)+(3./8)*np.log(0.9)+(1./8)*np.log(1.5)+(1./8)*np.log(.6)
-
-# plt.semilogy(toss,np.exp(re*toss),color='red')
-# plt.semilogy(toss,np.exp(r1*toss),color='black')
-# plt.semilogy(toss,np.exp(r2*toss),color='green')
-# plt.semilogy(toss,np.exp(r3*toss),color='blue')
-
-# # Setting x-axis tick locations
-# xtick_positions = [0, 500, 1000, 1500, 2000]
-# plt.xticks(xtick_positions)
-
-# # Setting y-axis tick locations
-# ytick_positions = [10**-50, 10**-25, 1, 10.**25, 10.**50]
-# ytick_labels = [r'$10^{-50}$',r'$10^{-25}$',r'$1$',r'$10^{25}$',r'$10^{50}$',]
-# plt.yticks(ytick_positions,ytick_labels)
-
-# plt.xlabel('gamble round\n')
-# plt.ylabel('wealth')
-# plt.savefig('./../../figs/cooperating_coin.pdf', format='pdf')
-# plt.show()
-
-
-        
-        
-
 if __name__ == '__main__':
     main()
 
