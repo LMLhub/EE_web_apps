@@ -21,7 +21,7 @@ def coin_toss_experiment(gain, loss, starting_capital, heads_probability, num_to
     # Calculate capital after each toss
     capital = starting_capital + gain * np.sum(results[results == 1]) - loss * np.sum(results[results == -1])
     # cumulative_capital = starting_capital + gain * np.cumsum(results[results == 1]) - loss * np.cumsum(results[results == -1])
-    cumulative_capital = starting_capital + np.where(results == 1,gain*np.cumsum(results),loss*np.cumsum(results))
+    cumulative_capital = starting_capital + np.cumsum(np.where(results == 1,gain*(results),loss*(results)))
 
     # Create a DataFrame to store the results
     data = {
