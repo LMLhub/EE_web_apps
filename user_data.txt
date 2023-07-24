@@ -417,3 +417,303 @@ choice: 9 buy
 choice: 10 buy
 choice: 11 buy
 choice: risk
+choice: 13 buy
+choice: 14 buy
+choice: 15 buy
+choice: risk
+choice: risk
+choice: risk
+choice: 19 buy
+choice: 20 buy
+choice: 21 buy
+choice: 22 buy
+choice: 1 buy
+choice: 2 buy
+choice: risk
+choice: risk
+choice: risk
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: 1 buy
+choice: 2 buy
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: 76 buy
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: 1 buy
+choice: 2 buy
+choice: risk
+choice: risk
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: 1 buy
+choice: risk
+choice: risk
+choice: 3 buy
+choice: 4 buy
+choice: 5 buy
+choice: 6 buy
+choice: 7 buy
+choice: 8 buy
+choice: 9 buy
+choice: 10 buy
+choice: 11 buy
+choice: 12 buy
+choice: 13 buy
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: 18 buy
+choice: 19 buy
+choice: 20 buy
+choice: 21 buy
+choice: 22 buy
+choice: 23 buy
+choice: 24 buy
+choice: 25 buy
+choice: 26 buy
+choice: 27 buy
+choice: 28 buy
+choice: 29 buy
+choice: 30 buy
+choice: 31 buy
+choice: 32 buy
+choice: 33 buy
+choice: 34 buy
+choice: 35 buy
+choice: 36 buy
+choice: 37 buy
+choice: 38 buy
+choice: 39 buy
+choice: 40 buy
+choice: 41 buy
+choice: 42 buy
+choice: 43 buy
+choice: 44 buy
+choice: 45 buy
+choice: 46 buy
+choice: 47 buy
+choice: 48 buy
+choice: 49 buy
+choice: 50 buy
+choice: 51 buy
+choice: 52 buy
+choice: 53 buy
+choice: 54 buy
+choice: 55 buy
+choice: 56 buy
+choice: 57 buy
+choice: 58 buy
+choice: 59 buy
+choice: 60 buy
+choice: 61 buy
+choice: 62 buy
+choice: 63 buy
+choice: 64 buy
+choice: 65 buy
+choice: 66 buy
+choice: 67 buy
+choice: 68 buy
+choice: 69 buy
+choice: 1 buy
+choice: 1 buy
+choice: 1 buy
+choice: 1 buy
+choice: 1 buy
+choice: 1 buy
+choice: 2 buy
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: 4 buy
+choice: 5 buy
+choice: 6 buy
+choice: 7 buy
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: 4 buy
+choice: 1 buy
+choice: 2 buy
+choice: 3 buy
+choice: 4 buy
+choice: 5 buy
+choice: 6 buy
+choice: 7 buy
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: risk
+choice: 18 buy
