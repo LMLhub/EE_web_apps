@@ -20,6 +20,12 @@ def user_id_page():
         st.session_state.user_id = user_id
         st.session_state.page = "main_app_page"
         st.experimental_rerun()
+def end_page():
+    st.title('Thank You')
+    random_code = "".join([str(random.randint(0, 9)) if i=='X' else i for i in "XXXABCXXLMLXXEEXXXX"])
+    st.write("Your code:")
+    st.code(random_code)
+
 def main_app_page():
     user_id = st.session_state.user_id
     if not os.path.isfile('data.csv'):
@@ -39,7 +45,6 @@ def main_app_page():
 
     st.title('Main App')
 
-    # Generate the random numbers at the start of each iteration
     dice_df = pd.DataFrame({
         "Die Face": [ "1, 2, 3, 4, 5", "6"],
         "Outcomes": [ round(random.uniform(1, 2), 2), round(random.uniform(0, 1), 2)]
@@ -56,9 +61,11 @@ def main_app_page():
     st.write("Dice Table:")
     st.dataframe(dice_df.style.apply(highlight_cells, axis=None))
 
-    option = st.radio('Make a choice', ('Yes', 'No'))
+    with st.form(key='choices_form'):
+        option = st.radio('Make a choice', ('Yes', 'No'))
+        submit_button = st.form_submit_button(label='Confirm')
 
-    if st.button('Confirm') and time < 50:
+    if submit_button and time < 50:
         if option == 'Yes':
             time += 1
             capital = random.choice([capital * dice_df.loc[0, "Outcomes"] - 0.1 * capital, capital])
@@ -74,20 +81,19 @@ def main_app_page():
     st.write(f'Time: {time}')
     st.write(f'Capital: {capital}')
 
-    if time >= 10:
-        st.write("The app has ended for this user.")
-        if st.button('Restart', key='restart'):
-            st.session_state.page = "start_page"
-            st.experimental_rerun()
-
+    if time >= 15:
+        st.session_state.page = "end_page"
+        st.experimental_rerun()
 
 PAGES = {
     "start_page": start_page,
     "user_id_page": user_id_page,
-    "main_app_page": main_app_page
+    "main_app_page": main_app_page,
+    "end_page": end_page
 }
 
 st.session_state.page = st.session_state.get("page", "start_page")
 
 PAGES[st.session_state.page]()
+
 
