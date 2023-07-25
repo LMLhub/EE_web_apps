@@ -24,6 +24,11 @@ def user_id_page():
 
 loss_prob=1./6
 initial_wealth=100
+def end_page():
+    st.title('Thank You')
+    random_code = "".join([str(random.randint(0, 9)) if i=='X' else i for i in "XXXABCXXLMLXXEEXXXX"])
+    st.write("Your code:")
+    st.code(random_code)
 
 def main_app_page():
     user_id = session_state.user_id
@@ -70,6 +75,10 @@ def main_app_page():
 
     st.title('Main App')
 
+#    dice_df = pd.DataFrame({
+#        "Outcomes": [ round(random.uniform(1, 2), 2), round(random.uniform(0, 1), 2)]
+#        "Die Face": [ "1, 2, 3, 4, 5", "6"],
+#    })
 
     def highlight_cells(data, color='white'):
         attr = f'background-color: {color}'
@@ -105,29 +114,27 @@ def main_app_page():
         # st.write("Dice Table:")
         # st.dataframe(dice_df.style.apply(highlight_cells, axis=None))
 
-
-    if session_state.t >= 10:
-        st.write("The app has ended for this user.")
-        if st.button('Restart', key='restart'):
             # reset variables to initial values
-            session_state.t = 0
-            session_state.wealth=initial_wealth
-            session_state.loss = .9*session_state.wealth
-            session_state.gain = .1*session_state.wealth
-            session_state.loss_probability = loss_prob
-            session_state.fee = 1.1*session_state.loss_probability*session_state.loss
+#            session_state.t = 0
+#            session_state.wealth=initial_wealth
+#            session_state.loss = .9*session_state.wealth
+#            session_state.gain = .1*session_state.wealth
+#            session_state.loss_probability = loss_prob
+#            session_state.fee = 1.1*session_state.loss_probability*session_state.loss
 
-            st.session_state.page = "start_page"
-            st.experimental_rerun()
-
+    if time >= 15:
+        st.session_state.page = "end_page"
+        st.experimental_rerun()
 
 PAGES = {
     "start_page": start_page,
     "user_id_page": user_id_page,
-    "main_app_page": main_app_page
+    "main_app_page": main_app_page,
+    "end_page": end_page
 }
 
 st.session_state.page = st.session_state.get("page", "start_page")
 
 PAGES[st.session_state.page]()
+
 
