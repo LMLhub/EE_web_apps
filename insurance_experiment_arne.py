@@ -91,7 +91,8 @@ def main_app_page():
 
     option = st.radio('Make a choice', ('Buy insurance', 'Take the risk'))
 
-    if st.button('Confirm') and session_state.t < 10:
+    if st.button('Confirm'):
+        #and session_state.t < 10:
         session_state.t=session_state.t+1
         if option == 'Buy insurance':
             session_state.wealth = session_state.wealth - session_state.fee + session_state.gain
@@ -114,15 +115,7 @@ def main_app_page():
         # st.write("Dice Table:")
         # st.dataframe(dice_df.style.apply(highlight_cells, axis=None))
 
-            # reset variables to initial values
-#            session_state.t = 0
-#            session_state.wealth=initial_wealth
-#            session_state.loss = .9*session_state.wealth
-#            session_state.gain = .1*session_state.wealth
-#            session_state.loss_probability = loss_prob
-#            session_state.fee = 1.1*session_state.loss_probability*session_state.loss
-
-    if time >= 15:
+    if session_state.t >= 5:
         st.session_state.page = "end_page"
         st.experimental_rerun()
 
