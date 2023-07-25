@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit import session_state
 import pandas as pd
 import random
 import os
@@ -10,18 +11,48 @@ def random_description():
 def start_page():
     st.title('Welcome to the App')
     if st.button('Start'):
-        st.session_state.page = "user_id_page"
+        session_state.page = "user_id_page"
         st.experimental_rerun()
 
 def user_id_page():
     st.title("Enter User ID")
     user_id = st.number_input('Enter your user ID (0-10)', min_value=0, max_value=10, step=1)
     if st.button("Confirm User ID"):
-        st.session_state.user_id = user_id
-        st.session_state.page = "main_app_page"
+        session_state.user_id = user_id
+        session_state.page = "main_app_page"
         st.experimental_rerun()
+
+loss_prob=1./6
+initial_wealth=100
+
 def main_app_page():
-    user_id = st.session_state.user_id
+    user_id = session_state.user_id
+
+# Initialize session state variables
+    if 't' not in session_state:
+        session_state.t = 0
+
+    if 'wealth' not in session_state:
+        session_state.wealth=initial_wealth
+
+    if 'loss' not in session_state:
+        session_state.loss = .9*session_state.wealth
+
+    if 'gain' not in session_state:
+        session_state.gain = .1*session_state.wealth
+
+    if 'loss_probability' not in session_state:
+        session_state.loss_probability = loss_prob
+
+    if 'fee' not in session_state:
+        session_state.fee = 1.1*session_state.loss_probability*session_state.loss
+
+    st.write(f'Wealth: {session_state.wealth:.2f}')
+    st.write(f'Gain: {session_state.gain:.2f}')
+    st.write(f'Loss: {session_state.loss:.2f}')
+    st.write(f'Fee: {session_state.fee:.2f}')
+ 
+
     if not os.path.isfile('data.csv'):
         df = pd.DataFrame(columns=['UserID', 'Die Face', 'Outcome', 'Time', 'Capital'])
         df.to_csv('data.csv', index=False)
@@ -39,11 +70,6 @@ def main_app_page():
 
     st.title('Main App')
 
-    # Generate the random numbers at the start of each iteration
-    dice_df = pd.DataFrame({
-        "Die Face": [ "1, 2, 3, 4, 5", "6"],
-        "Outcomes": [ round(random.uniform(1, 2), 2), round(random.uniform(0, 1), 2)]
-    })
 
     def highlight_cells(data, color='white'):
         attr = f'background-color: {color}'
@@ -53,30 +79,44 @@ def main_app_page():
         mask.iloc[1, 0] = mask.iloc[1, 1] = 'background-color: red'
         return mask
 
-    st.write("Dice Table:")
-    st.dataframe(dice_df.style.apply(highlight_cells, axis=None))
 
-    option = st.radio('Make a choice', ('Yes', 'No'))
+    option = st.radio('Make a choice', ('Buy insurance', 'Take the risk'))
 
-    if st.button('Confirm') and time < 50:
-        if option == 'Yes':
-            time += 1
-            capital = random.choice([capital * dice_df.loc[0, "Outcomes"] - 0.1 * capital, capital])
+    if st.button('Confirm') and session_state.t < 10:
+        session_state.t=session_state.t+1
+        if option == 'Buy insurance':
+            session_state.wealth = session_state.wealth - session_state.fee + session_state.gain
         else:
-            capital = random.choice([capital * dice_df.loc[0, "Outcomes"], capital * dice_df.loc[1, "Outcomes"]])
-        new_row = pd.DataFrame({'UserID': [user_id], 'Die Face': [dice_df.iloc[1:, 0].to_list()], 'Outcome': [dice_df.iloc[1:, 1].to_list()], 'Time': [time], 'Capital': [capital]})
-        df = pd.concat([df, new_row], ignore_index=True)
-        df.to_csv('data.csv', index=False)
+            session_state.wealth = session_state.wealth+random.choices([session_state.gain, -session_state.loss], [1-session_state.loss_probability, session_state.loss_probability], k=1)[0]
+        # new_row = pd.DataFrame({'UserID': [user_id], 'Die Face': [dice_df.iloc[1:, 0].to_list()], 'Outcome': [dice_df.iloc[1:, 1].to_list()], 'Time': [time], 'Capital': [capital]})
+        # df = pd.concat([df, new_row], ignore_index=True)
+        # df.to_csv('data.csv', index=False)
+        session_state.loss = .9*session_state.wealth
+        session_state.gain = .1*session_state.wealth
+        session_state.fee = 1.1*session_state.loss_probability*session_state.loss
 
         # Rerun after each confirmed choice to generate new random outcomes and update the time and capital.
         st.experimental_rerun()
 
-    st.write(f'Time: {time}')
-    st.write(f'Capital: {capital}')
+        # dice_df = pd.DataFrame({
+        #     "Die Face": [ "1, 2, 3, 4, 5", "6"],
+        #     "Outcomes": [ round(session_state.wealth+session_state.gain, 2), round(session_state.wealth-session_state.loss, 2)]
+        #     })
+        # st.write("Dice Table:")
+        # st.dataframe(dice_df.style.apply(highlight_cells, axis=None))
 
-    if time >= 10:
+
+    if session_state.t >= 10:
         st.write("The app has ended for this user.")
         if st.button('Restart', key='restart'):
+            # reset variables to initial values
+            session_state.t = 0
+            session_state.wealth=initial_wealth
+            session_state.loss = .9*session_state.wealth
+            session_state.gain = .1*session_state.wealth
+            session_state.loss_probability = loss_prob
+            session_state.fee = 1.1*session_state.loss_probability*session_state.loss
+
             st.session_state.page = "start_page"
             st.experimental_rerun()
 

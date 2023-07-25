@@ -19,7 +19,6 @@ def write_to_file(text_to_write):
 
     
 def main():
-    wealth=100
     # Initialize session state variables
     if 't' not in session_state:
         session_state.t = 0
