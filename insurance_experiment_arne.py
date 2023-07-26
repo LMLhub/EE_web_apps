@@ -9,9 +9,19 @@ import matplotlib.gridspec as gridspec
 import matplotlib.colors as mcolors 
 import os
 
-def random_description():
-    descriptions = ["Lorem Ipsum ...", "Dolor Sit Amet ...", "Consectetur Adipiscing ...", "Elit Sed Do ..."]
-    return random.choice(descriptions)
+
+if not os.path.exists('choices.xlsx'):
+    df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
+    df.to_excel('choices.xlsx', index=False)
+else:
+    df = pd.read_excel('choices.xlsx')
+    if df.empty or 'UserID' not in df.columns or 'Choice' not in df.columns or 'Wealth' not in df.columns:
+        df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
+        df.to_excel('choices.xlsx', index=False)
+
+
+loss_prob=1./6
+initial_wealth=100
 
 def start_page():
     st.title('Welcome to the App')
@@ -24,16 +34,34 @@ def user_id_page():
     user_id = st.number_input('Enter your user ID (0-10)', min_value=0, max_value=10, step=1)
     if st.button("Confirm User ID"):
         session_state.user_id = user_id
+        df = pd.read_excel('choices.xlsx')
+        user_data = df[df['UserID'] == user_id]
+        if not user_data.empty:
+            session_state.wealth = user_data.iloc[-1]['Wealth']
+            session_state.t = len(user_data)
+            session_state.df = user_data
+            session_state.loss = .9 * session_state.wealth
+            session_state.gain = .1 * session_state.wealth
+            session_state.loss_probability = loss_prob
+            session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
+        else:
+            session_state.t = 0
+            session_state.wealth = initial_wealth
+            session_state.loss = .9*session_state.wealth
+            session_state.gain = .1*session_state.wealth
+            session_state.loss_probability = loss_prob
+            session_state.fee = 1.1*session_state.loss_probability*session_state.loss
+            session_state.rolled = 0
+            session_state.df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
         session_state.page = "main_app_page"
         st.experimental_rerun()
 
-loss_prob=1./6
-initial_wealth=100
 def end_page():
     st.title('Thank You')
     random_code = "".join([str(random.randint(0, 9)) if i=='X' else i for i in "XXXABCXXLMLXXEEXXXX"])
     st.write("Your code:")
     st.code(random_code)
+
 
 
 die_face_layouts = [
@@ -146,32 +174,52 @@ def main_app_page():
     if st.button('Roll the Dice'):
         session_state.t=session_state.t+1
         session_state.rolled = random.randint(1, 6)
+        
         if option == 'Buy insurance':
-            session_state.wealth = session_state.wealth - session_state.fee + session_state.gain
-        else:
-            session_state.wealth = session_state.wealth + random.choices([session_state.gain, -session_state.loss], [1 - session_state.loss_probability, session_state.loss_probability], k=1)[0]
+            if session_state.rolled < 6:
+                session_state.wealth = session_state.wealth - session_state.fee + session_state.gain
+            elif session_state.rolled == 6:
+                session_state.wealth = session_state.wealth - session_state.fee
+        elif option == 'Take the risk':
+            if session_state.rolled < 6:
+                session_state.wealth = session_state.wealth +  session_state.gain
+            else:  # the rolled number is 6, the loss case
+                session_state.wealth = session_state.wealth - session_state.loss  # decrease wealth by the loss amount
+                
+        new_data = pd.DataFrame({'UserID': [session_state.user_id], 'Choice': [option], 'Wealth': [session_state.wealth]})
+        session_state.df = pd.concat([session_state.df, new_data], ignore_index=True)
+
         session_state.loss = .9 * session_state.wealth
         session_state.gain = .1 * session_state.wealth
         session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
+
+        # Read the existing DataFrame from the Excel file
+        df = pd.read_excel('choices.xlsx')
+
+        # Append only the new data
+        df = pd.concat([df, new_data], ignore_index=True)  # Change this line
+
+        # Write the entire DataFrame back to the Excel file
+        df.to_excel('choices.xlsx', index=False, header=True)
 
         st.experimental_rerun()
 
     draw_diefaces_explanation(session_state.gain, session_state.loss, session_state.rolled)
 
-
-    if session_state.t >= 5:
-        st.session_state.page = "end_page"
+    if session_state.t >= 50:
+        session_state.page = "end_page"
         st.experimental_rerun()
+
+
+if 'page' not in st.session_state:
+    st.session_state.page = "start_page"
 
 PAGES = {
     "start_page": start_page,
     "user_id_page": user_id_page,
     "main_app_page": main_app_page,
-    "end_page": end_page
+    "end_page": end_page,
 }
 
-st.session_state.page = st.session_state.get("page", "start_page")
-
 PAGES[st.session_state.page]()
-
 
