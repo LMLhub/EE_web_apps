@@ -2,6 +2,11 @@ import streamlit as st
 from streamlit import session_state
 import pandas as pd
 import random
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+import matplotlib.gridspec as gridspec
+import matplotlib.colors as mcolors 
 import os
 
 def random_description():
@@ -30,10 +35,86 @@ def end_page():
     st.write("Your code:")
     st.code(random_code)
 
+
+die_face_layouts = [
+    np.array([[0, 0, 0], [0, 1,0 ], [0, 0, 0]]),  # layout for die face 1
+    np.array([[0, 0, 1], [0, 0, 0], [1, 0, 0]]),  # layout for die face 2
+    np.array([[0, 0, 1], [0, 1, 0], [1, 0, 0]]),  # layout for die face 3
+    np.array([[1, 0, 1], [0, 0, 0], [1, 0, 1]]),  # layout for die face 4
+    np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]]),  # layout for die face 5
+    np.array([[1, 0, 1], [1, 0, 1], [1, 0, 1]])   # layout for die face 6
+]
+
+def draw_diefaces_explanation(positive, negative, rolled):
+    fig = plt.figure(figsize=(11, 3), dpi=80)
+
+    gs = gridspec.GridSpec(4, 14, figure=fig)
+    ax_dice = [plt.subplot(gs[0:2, i], aspect='equal') for i in range(5)]
+    ax_dice.append(plt.subplot(gs[2:4, 0],aspect='equal'))
+
+    ax_bar = [plt.subplot(gs[i, 7:9]) for i in range(4)]
+
+    ax_text = plt.subplot(gs[:, 9:])
+
+    for i, ax in enumerate(ax_dice):
+        ax.set(xticks=[], yticks=[])
+        ax.axis('off')
+
+        if i+1 == rolled and i+1 == 6:
+            face_color = 'lightsalmon' 
+        elif i+1 == rolled:
+            face_color = 'lightgreen'
+        else:
+            face_color = 'white'
+
+        rect = patches.Rectangle((0, 0), 1, 1, facecolor=face_color, edgecolor='black')
+        ax.add_patch(rect)
+
+        for r in range(3):
+            for c in range(3):
+                if die_face_layouts[i][r, c] == 1:
+                    circle = patches.Circle((c/3.0+0.17, 2/3.0-r/3.0+0.17), 0.1, color='black')
+                    ax.add_patch(circle)
+                    
+    bar_values = [session_state.wealth + positive - session_state.fee, session_state.wealth + positive, session_state.wealth - session_state.fee, session_state.wealth - negative]
+    max_val = max(bar_values)
+    
+    text = ["Uninsured", "Insured", "Uninsured", "Insured"]
+
+    for i, ax in enumerate(ax_bar):
+        ax.spines['left'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_visible(False)
+        
+        bar_length = bar_values[i]/max_val  # scale the bar lengths relative to the max value
+        
+        ax.barh(0, bar_length, height=0.3, color='red' if bar_values[i] < session_state.wealth else 'green', edgecolor='none')  # Use horizontal bars without edges
+        
+        wealth_scaled = session_state.wealth / max_val
+        ax.axvline(x=wealth_scaled, color='black')  # Draw a vertical line representing the current wealth
+        
+        ax.set(xticks=[], yticks=[])
+        ax.set_xlim(0, 1)  # x-limits are now between 0 and 1 since the bar lengths are scaled
+        ax.text(bar_length/2, 0, f'{bar_values[i]:.2f}', ha='center', va='center', fontsize=8, color='black')
+
+        # Add corresponding text
+        ax_text.text(0.0, i / 4.0 + 0.125, text[i], ha='center', va='center', fontsize=8, color='black')
+
+
+
+    ax_text.axis('off')
+    plt.tight_layout()
+    st.pyplot(fig)
+
+
+
+
+
+
 def main_app_page():
     user_id = session_state.user_id
 
-# Initialize session state variables
     if 't' not in session_state:
         session_state.t = 0
 
@@ -52,68 +133,31 @@ def main_app_page():
     if 'fee' not in session_state:
         session_state.fee = 1.1*session_state.loss_probability*session_state.loss
 
+    if 'rolled' not in session_state:
+        session_state.rolled = 0
+
     st.write(f'Wealth: {session_state.wealth:.2f}')
     st.write(f'Gain: {session_state.gain:.2f}')
     st.write(f'Loss: {session_state.loss:.2f}')
     st.write(f'Fee: {session_state.fee:.2f}')
- 
-
-    if not os.path.isfile('data.csv'):
-        df = pd.DataFrame(columns=['UserID', 'Die Face', 'Outcome', 'Time', 'Capital'])
-        df.to_csv('data.csv', index=False)
-        time = 1
-        capital = 1000
-    else:
-        df = pd.read_csv('data.csv')
-        user_data = df[df['UserID'] == user_id]
-        if user_data.empty:
-            time = 1
-            capital = 1000
-        else:
-            time = user_data.iloc[-1]['Time']
-            capital = user_data.iloc[-1]['Capital']
-
-    st.title('Main App')
-
-#    dice_df = pd.DataFrame({
-#        "Outcomes": [ round(random.uniform(1, 2), 2), round(random.uniform(0, 1), 2)]
-#        "Die Face": [ "1, 2, 3, 4, 5", "6"],
-#    })
-
-    def highlight_cells(data, color='white'):
-        attr = f'background-color: {color}'
-        other = 'background-color: white'
-        mask = pd.DataFrame(other, index=data.index, columns=data.columns)
-        mask.iloc[0, 0] = mask.iloc[0, 1] = 'background-color: green'
-        mask.iloc[1, 0] = mask.iloc[1, 1] = 'background-color: red'
-        return mask
-
 
     option = st.radio('Make a choice', ('Buy insurance', 'Take the risk'))
 
-    if st.button('Confirm'):
-        #and session_state.t < 10:
+    if st.button('Roll the Dice'):
         session_state.t=session_state.t+1
+        session_state.rolled = random.randint(1, 6)
         if option == 'Buy insurance':
             session_state.wealth = session_state.wealth - session_state.fee + session_state.gain
         else:
-            session_state.wealth = session_state.wealth+random.choices([session_state.gain, -session_state.loss], [1-session_state.loss_probability, session_state.loss_probability], k=1)[0]
-        # new_row = pd.DataFrame({'UserID': [user_id], 'Die Face': [dice_df.iloc[1:, 0].to_list()], 'Outcome': [dice_df.iloc[1:, 1].to_list()], 'Time': [time], 'Capital': [capital]})
-        # df = pd.concat([df, new_row], ignore_index=True)
-        # df.to_csv('data.csv', index=False)
-        session_state.loss = .9*session_state.wealth
-        session_state.gain = .1*session_state.wealth
-        session_state.fee = 1.1*session_state.loss_probability*session_state.loss
+            session_state.wealth = session_state.wealth + random.choices([session_state.gain, -session_state.loss], [1 - session_state.loss_probability, session_state.loss_probability], k=1)[0]
+        session_state.loss = .9 * session_state.wealth
+        session_state.gain = .1 * session_state.wealth
+        session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
 
-        # Rerun after each confirmed choice to generate new random outcomes and update the time and capital.
         st.experimental_rerun()
 
-        # dice_df = pd.DataFrame({
-        #     "Die Face": [ "1, 2, 3, 4, 5", "6"],
-        #     "Outcomes": [ round(session_state.wealth+session_state.gain, 2), round(session_state.wealth-session_state.loss, 2)]
-        #     })
-        # st.write("Dice Table:")
-        # st.dataframe(dice_df.style.apply(highlight_cells, axis=None))
+    draw_diefaces_explanation(session_state.gain, session_state.loss, session_state.rolled)
+
 
     if session_state.t >= 5:
         st.session_state.page = "end_page"
