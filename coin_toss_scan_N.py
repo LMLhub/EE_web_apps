@@ -26,7 +26,7 @@ def coin_toss_experiment(N, T):
 def main():
     # User inputs
     T=10
-    N = st.slider('Number of players, N:', min_value=1, max_value=100)
+    N = st.slider('Number of players, N:', value=20, min_value=1, max_value=100)
     t = np.arange(0,T+1)
 #    T = st.slider('Simulated rounds, T:', value=500,min_value=1,max_value=2000)
 
