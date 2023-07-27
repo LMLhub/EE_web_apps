@@ -9,7 +9,6 @@ import matplotlib.gridspec as gridspec
 import matplotlib.colors as mcolors 
 import os
 
-
 loss_prob=1./6
 initial_wealth=100
 
@@ -24,26 +23,17 @@ def user_id_page():
     user_id = st.number_input('Enter your user ID (0-10)', min_value=0, max_value=10, step=1)
     if st.button("Confirm User ID"):
         session_state.user_id = user_id
-        user_file = f'choices_user_{user_id}.csv'
-        if os.path.exists(user_file):
-            df = pd.read_csv(user_file)
-            if not df.empty:
-                session_state.wealth = df.iloc[-1]['Wealth']
-                session_state.t = len(df)
-                session_state.df = df
+        filename = f'user_{user_id}_choices.txt'
+        if os.path.exists(filename):
+            session_state.df = pd.read_csv(filename, sep='\t')
+            user_data = session_state.df
+            if not user_data.empty:
+                session_state.wealth = user_data.iloc[-1]['Wealth']
+                session_state.t = len(user_data)
                 session_state.loss = .9 * session_state.wealth
                 session_state.gain = .1 * session_state.wealth
                 session_state.loss_probability = loss_prob
                 session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
-            else:
-                session_state.t = 0
-                session_state.wealth = initial_wealth
-                session_state.loss = .9*session_state.wealth
-                session_state.gain = .1*session_state.wealth
-                session_state.loss_probability = loss_prob
-                session_state.fee = 1.1*session_state.loss_probability*session_state.loss
-                session_state.rolled = 0
-                session_state.df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
         else:
             session_state.t = 0
             session_state.wealth = initial_wealth
@@ -53,6 +43,7 @@ def user_id_page():
             session_state.fee = 1.1*session_state.loss_probability*session_state.loss
             session_state.rolled = 0
             session_state.df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
+            
         session_state.page = "main_app_page"
         st.experimental_rerun()
 
@@ -194,8 +185,8 @@ def main_app_page():
         session_state.gain = .1 * session_state.wealth
         session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
 
-        # Read the existing DataFrame from the Excel file
-        session_state.df.to_csv(f'choices_user_{session_state.user_id}.csv', index=False, header=True)
+        # Append only the new data
+        session_state.df.to_csv(f'user_{session_state.user_id}_choices.txt', index=False, sep='\t', header=True)
 
         st.experimental_rerun()
 
@@ -204,7 +195,6 @@ def main_app_page():
     if session_state.t >= 50:
         session_state.page = "end_page"
         st.experimental_rerun()
-
 
 if 'page' not in st.session_state:
     st.session_state.page = "start_page"
