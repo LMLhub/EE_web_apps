@@ -10,16 +10,6 @@ import matplotlib.colors as mcolors
 import os
 
 
-if not os.path.exists('choices.xlsx'):
-    df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
-    df.to_excel('choices.xlsx', index=False)
-else:
-    df = pd.read_excel('choices.xlsx')
-    if df.empty or 'UserID' not in df.columns or 'Choice' not in df.columns or 'Wealth' not in df.columns:
-        df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
-        df.to_excel('choices.xlsx', index=False)
-
-
 loss_prob=1./6
 initial_wealth=100
 
@@ -34,16 +24,26 @@ def user_id_page():
     user_id = st.number_input('Enter your user ID (0-10)', min_value=0, max_value=10, step=1)
     if st.button("Confirm User ID"):
         session_state.user_id = user_id
-        df = pd.read_excel('choices.xlsx')
-        user_data = df[df['UserID'] == user_id]
-        if not user_data.empty:
-            session_state.wealth = user_data.iloc[-1]['Wealth']
-            session_state.t = len(user_data)
-            session_state.df = user_data
-            session_state.loss = .9 * session_state.wealth
-            session_state.gain = .1 * session_state.wealth
-            session_state.loss_probability = loss_prob
-            session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
+        user_file = f'choices_user_{user_id}.csv'
+        if os.path.exists(user_file):
+            df = pd.read_csv(user_file)
+            if not df.empty:
+                session_state.wealth = df.iloc[-1]['Wealth']
+                session_state.t = len(df)
+                session_state.df = df
+                session_state.loss = .9 * session_state.wealth
+                session_state.gain = .1 * session_state.wealth
+                session_state.loss_probability = loss_prob
+                session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
+            else:
+                session_state.t = 0
+                session_state.wealth = initial_wealth
+                session_state.loss = .9*session_state.wealth
+                session_state.gain = .1*session_state.wealth
+                session_state.loss_probability = loss_prob
+                session_state.fee = 1.1*session_state.loss_probability*session_state.loss
+                session_state.rolled = 0
+                session_state.df = pd.DataFrame(columns=['UserID', 'Choice', 'Wealth'])
         else:
             session_state.t = 0
             session_state.wealth = initial_wealth
@@ -61,6 +61,7 @@ def end_page():
     random_code = "".join([str(random.randint(0, 9)) if i=='X' else i for i in "XXXABCXXLMLXXEEXXXX"])
     st.write("Your code:")
     st.code(random_code)
+
 
 
 
@@ -194,13 +195,7 @@ def main_app_page():
         session_state.fee = 1.1 * session_state.loss_probability * session_state.loss
 
         # Read the existing DataFrame from the Excel file
-        df = pd.read_excel('choices.xlsx')
-
-        # Append only the new data
-        df = pd.concat([df, new_data], ignore_index=True)  # Change this line
-
-        # Write the entire DataFrame back to the Excel file
-        df.to_excel('choices.xlsx', index=False, header=True)
+        session_state.df.to_csv(f'choices_user_{session_state.user_id}.csv', index=False, header=True)
 
         st.experimental_rerun()
 
