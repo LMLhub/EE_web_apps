@@ -8,6 +8,7 @@ import matplotlib.patches as patches
 import matplotlib.gridspec as gridspec
 import matplotlib.colors as mcolors 
 import os
+import time
 
 loss_prob=1./6
 initial_wealth=100
@@ -164,6 +165,8 @@ def main_app_page():
     option = st.radio('Make a choice', ('Buy insurance', 'Take the risk'))
 
     if st.button('Roll the Dice'):
+        st.write('Rolling...')
+        time.sleep(0.5)
         session_state.t=session_state.t+1
         session_state.rolled = random.randint(1, 6)
         
