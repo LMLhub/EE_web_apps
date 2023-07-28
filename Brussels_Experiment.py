@@ -2,7 +2,9 @@ import streamlit as st
 from streamlit import session_state as SessionState
 import random
 import pandas as pd
+import time
 
+random.seed(time.time())
 # Defining the gamble pairs for additive and multiplicative dynamics
 additive_gambles = additive = [
     [[-308, 291], [-88, 71]],
@@ -112,6 +114,9 @@ gambles = SessionState.gambles_order[0] if SessionState.gamble_index < len(Sessi
 gamble = gambles[SessionState.gamble_index % len(gambles)]
 
 st.title('The Brussels Experiment')
+
+st.markdown("**All outcomes are equally likely and depend on the flip of a coin.**")
+
 
 # Check if all the gambles have been played
 if SessionState.gamble_index == len(additive_gambles) + len(multiplicative_gambles):
