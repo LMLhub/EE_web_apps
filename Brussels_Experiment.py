@@ -111,7 +111,7 @@ if SessionState.gambles_order is None:
 gambles = SessionState.gambles_order[0] if SessionState.gamble_index < len(SessionState.gambles_order[0]) else SessionState.gambles_order[1]
 gamble = gambles[SessionState.gamble_index % len(gambles)]
 
-st.title('Gamble selection')
+st.title('The Brussels Experiment')
 
 # Check if all the gambles have been played
 if SessionState.gamble_index == len(additive_gambles) + len(multiplicative_gambles):
