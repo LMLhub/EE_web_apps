@@ -140,8 +140,15 @@ else:
         st.write(f'Current wealth: {SessionState.wealth}')
     else:
         st.write("Wealth is hidden.")
+        
+    st.markdown("**All outcomes are equally likely and depend on the flip of a coin.**")
 
-    for i, bet in enumerate(gamble, 1):
+    # Randomize the order of bets
+    bet_order = [0, 1]
+    random.shuffle(bet_order)
+    randomized_gamble = [gamble[bet_order[0]], gamble[bet_order[1]]]
+
+    for i, bet in enumerate(randomized_gamble, 1):
         df = pd.DataFrame([bet], columns=['Outcome 1', 'Outcome 2'])
         st.write(f' Bet {i}:')
         st.markdown(df.to_html(index=False), unsafe_allow_html=True)
@@ -160,7 +167,7 @@ else:
             # Determine if the selected bet is the safer one
             safe_bet_index = 0 if (isinstance(gamble[0][0], int) and abs(gamble[0][0] - gamble[0][1]) < abs(gamble[1][0] - gamble[1][1])) or \
                                  (isinstance(gamble[0][0], float) and abs((gamble[0][0] / gamble[0][1]) - 1) < abs((gamble[1][0] / gamble[1][1]) - 1)) else 1
-            if i - 1 == safe_bet_index:
+            if bet_order[i - 1] == safe_bet_index:
                 SessionState.safe_bet_counts[order_index] += 1
 
             # Go to the next gamble
