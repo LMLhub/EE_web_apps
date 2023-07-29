@@ -113,9 +113,16 @@ if SessionState.gambles_order is None:
 gambles = SessionState.gambles_order[0] if SessionState.gamble_index < len(SessionState.gambles_order[0]) else SessionState.gambles_order[1]
 gamble = gambles[SessionState.gamble_index % len(gambles)]
 
+
 st.title('The Brussels Experiment')
 
 st.markdown("**All outcomes are equally likely and depend on the flip of a coin.**")
+if gambles == additive_gambles:
+    st.markdown("You are currently in the <u><b>additive setting</b></u>.", unsafe_allow_html=True)
+else:
+    st.markdown("You are currently in the <u><b>multiplicative setting</b></u>.", unsafe_allow_html=True)
+
+    
 
 
 # Check if all the gambles have been played
@@ -140,6 +147,8 @@ else:
         st.write(f'Current wealth: {SessionState.wealth}')
     else:
         st.write("Wealth is hidden.")
+        
+
 
     # Randomize the order of bets
     bet_order = [0, 1]
