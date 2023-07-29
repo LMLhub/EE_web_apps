@@ -140,8 +140,6 @@ else:
         st.write(f'Current wealth: {SessionState.wealth}')
     else:
         st.write("Wealth is hidden.")
-        
-    st.markdown("**All outcomes are equally likely and depend on the flip of a coin.**")
 
     # Randomize the order of bets
     bet_order = [0, 1]
