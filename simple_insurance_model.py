@@ -64,8 +64,8 @@ def main():
     # User inputs
     N = 2
     T = 2500
-    c = st.slider('Risk fraction, L:', value=95, min_value=0, max_value=100)/100
-    p = st.slider('Probability, p:', value=5, min_value=0, max_value=100)/100
+    c = st.slider('Risk fraction, L:', value=0.95, min_value=0.00, max_value=1.00, step=0.01)
+    p = st.slider('Probability, p:', value=0.05, min_value=0.00, max_value=1.00, step=0.01)
     t = np.arange(0,T)
     t2 = np.arange(0, T/N, 1/N)
 
