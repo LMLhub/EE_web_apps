@@ -26,7 +26,10 @@ def insurance_simulation(T = 1000, N = 5, c = 0.95, p = 0.05):
         #find fees at which agents offer to insure the risk
         offer = np.zeros(N)
         for n in range(N):
-            offer[n] = root_scalar(min_func,args=(w_ins[t][n], p, risk_ins), method='brentq', bracket=[0, risk_ins],xtol=2e-300).root
+            try:
+                offer[n] = root_scalar(min_func,args=(w_ins[t][n], p, risk_ins), method='brentq', bracket=[0, risk_ins],xtol=2e-300).root
+            except:
+                offer[n] = np.inf
         offer[i] = np.inf     #exclude self-insurance
 
 
@@ -61,8 +64,8 @@ def main():
     # User inputs
     N = 2
     T = 2500
-    c = 0.95
-    p = 0.05
+    c = st.slider('Risk fraction, L:', value=95, min_value=0, max_value=100)/100
+    p = st.slider('Probability, p:', value=5, min_value=0, max_value=100)/100
     t = np.arange(0,T)
     t2 = np.arange(0, T/N, 1/N)
 
