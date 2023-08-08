@@ -1,5 +1,3 @@
-# EE_web_apps
-
 # Welcome to EE_web_apps
 
 ## Introduction
