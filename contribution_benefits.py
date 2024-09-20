@@ -32,19 +32,12 @@ def investment_process(sigma, mu_e, contribution, start_pay,end_pay,life_exp,N):
 
     S=S/(12*(life_exp-end_pay))
 
-    # # Create a DataFrame to store the results
-    # data = {
-    #     'Result': S,
-    # }
-    # df = pd.DataFrame(data)
-
-    # return df
     return S
 
 
 
 def main():
-    st.title('Retirement simulation')
+#    st.title('Retirement simulation')
     life_exp=80
     salary=1000
     N=10000
