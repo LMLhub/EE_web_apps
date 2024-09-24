@@ -42,6 +42,11 @@ def main():
     salary=1000
     N=10000
     
+    # Add an image
+#st.image("path_to_image.jpg", caption="London Mathematical Laboratory", use_column_width=True)
+    st.markdown('<a href="https://www.ergodicityeconomics.com" target="_blank">Part of the ergodicity economics project.</a>', unsafe_allow_html=True)
+
+    
     # User inputs
     sigma = st.slider('Volatility:', min_value=0.0, max_value=.5, step=.01, value=.15)
     mu_e = st.slider('Extra growth:', min_value=-0.1, max_value=.1, step=.01, value=.0)
