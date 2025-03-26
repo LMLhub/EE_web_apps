@@ -54,9 +54,9 @@ def main():
 #    st.title('Utility')
 
     # User inputs
-    eta = st.slider('Risk aversion parameter:',min_value=-1.,max_value=3., step=.1, value=1.5)
-    mu = st.slider('drift:', min_value=0.0, max_value=.1, step=0.01, value=0.05)
-    sigma = st.slider('volatility:', min_value=0.05, max_value=.5,step=.01,value=.2)
+    eta = st.slider(r'Risk aversion parameter, $\eta$:',min_value=-1.,max_value=3., step=.1, value=.5)
+    mu = st.slider(r'drift, $\mu$:', min_value=0.0, max_value=.1, step=0.01, value=0.05)
+    sigma = st.slider(r'volatility, $\sigma$:', min_value=0.05, max_value=.5,step=.01,value=.2)
 
     T = st.slider('max time:', min_value=1000, max_value=10000,step=200,value=5000)
 
