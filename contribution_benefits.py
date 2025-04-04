@@ -43,7 +43,9 @@ def main():
     N=10000
     
     # Add an image
-#st.image("path_to_image.jpg", caption="London Mathematical Laboratory", use_column_width=True)
+#    st.image("./images/logo_twitter_banner_faint.jpg", caption="<a href="https://www.ergodicityeconomics.com" target="_blank">Part of the ergodicity economics project.</a>", unsafe_allow_html=True", use_column_width=True)
+#    st.image("./images/logo_twitter_banner_faint.jpg", caption='<a href="https://www.ergodicityeconomics.com" target="_blank"></a>', unsafe_allow_html=True, use_column_width=True)
+    st.image("./images/logo_twitter_banner_faint.jpg", use_column_width=True)
     st.markdown('<a href="https://www.ergodicityeconomics.com" target="_blank">Part of the ergodicity economics project.</a>', unsafe_allow_html=True)
 
     
