@@ -63,7 +63,11 @@ def main():
     T = st.slider('max time:', min_value=1000, max_value=10000,step=200,value=5000)
 
     l_opt=mu/(sigma*sigma)
-    l_maxu=mu/(eta*sigma*sigma)
+    if eta==0:
+        l_maxu=10000
+        st.write(r"Singularity in $l_{\text{opt}}^{\text{EUT}}$ at $\eta=0$ (linear utility). Setting $l_{\text{opt}}^{\text{EUT}}=10,000$.")
+    else:
+        l_maxu=mu/(eta*sigma*sigma)
 
     st.write(r"Long-time growth is maximized at leverage $l_{\text{opt}}^{\text{EE}}=$",f"{l_opt:.2f}")
 
