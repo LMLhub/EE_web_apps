@@ -54,11 +54,20 @@ def main():
 #    st.title('Utility')
 
     # User inputs
-    eta = st.slider('Risk aversion parameter:',min_value=-1.,max_value=3., step=.1, value=1.5)
-    mu = st.slider('drift:', min_value=0.0, max_value=.1, step=0.01, value=0.05)
-    sigma = st.slider('volatility:', min_value=0.05, max_value=.5,step=.01,value=.2)
+    eta = st.slider(r'Risk aversion parameter, $\eta$:',min_value=-1.,max_value=3., step=.1, value=0.5)
+#    mu = st.slider('drift:', min_value=0.0, max_value=.1, step=0.01, value=0.05)
+#    sigma = st.slider('volatility:', min_value=0.05, max_value=.5,step=.01,value=.2)
+    mu=0.05
+    sigma=0.2
 
     T = st.slider('max time:', min_value=1000, max_value=10000,step=200,value=5000)
+
+    l_opt=mu/(sigma*sigma)
+    l_maxu=mu/(eta*sigma*sigma)
+
+    st.write(r"Long-time growth is maximized at leverage $l_{\text{opt}}^{\text{EE}}=$",f"{l_opt:.2f}")
+
+    st.write(r"Expected utility is maximized at leverage $l_{\text{opt}}^{\text{EUT}}=$",f"{l_maxu:.2f}")
 
     if st.button('Plot utility function'):
 
@@ -71,12 +80,7 @@ def main():
         st.session_state.plot1 = fig1  # Store the first plot
 
 
-
-    l_opt=mu/(sigma*sigma)
-    l_maxu=mu/(eta*sigma*sigma)
-
-
-    if st.button('Maximize expected utility'):
+    if st.button('Simulate agents'):
 
         t, S_e = geometric_brownian_motion(mu, sigma,l_opt,T)
         t, S_u = geometric_brownian_motion(mu, sigma,l_maxu,T)
@@ -85,10 +89,10 @@ def main():
         u_u=iso_u(S_u,eta)
 
         fig2, ax2 = plt.subplots()
-        ax2.semilogy(t, S_e,label='EE wealth',color='C0')
-        ax2.semilogy(t, u_e,label='EE utility',color='C0',linestyle='--')
-        ax2.semilogy(t, S_u,label='EUT wealth',color='C1')       
-        ax2.semilogy(t, u_u,label='EUT utility',color='C1',linestyle='--')       
+        ax2.semilogy(t, S_e,label='EE agent\'s wealth',color='C0')
+        ax2.semilogy(t, u_e,label='EE agent\'s utility',color='C0',linestyle='--')
+        ax2.semilogy(t, S_u,label='EUT agent\'s wealth',color='C1')       
+        ax2.semilogy(t, u_u,label='EUT agent\'s utility',color='C1',linestyle='--')       
         ax2.set_xlabel('time')
         ax2.set_ylabel('dollar wealth and corresponding utility')
         ax2.legend()
