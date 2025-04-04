@@ -73,6 +73,7 @@ def main():
 
     st.write(r"Expected utility is maximized at leverage $l_{\text{opt}}^{\text{EUT}}=$",f"{l_maxu:.2f}")
 
+
     if st.button('Plot utility function'):
 
         x=np.arange(.1,100,1)
@@ -82,6 +83,10 @@ def main():
         ax1.set_xlabel('dollar wealth')
         ax1.set_ylabel('utility')
         st.session_state.plot1 = fig1  # Store the first plot
+
+    if st.session_state.plot1:
+        st.pyplot(st.session_state.plot1)
+
 
 
     if st.button('Simulate agents'):
@@ -102,10 +107,6 @@ def main():
         ax2.legend()
         st.session_state.plot2 = fig2  # Store the second plot
         
-        # Display stored plots
-    if st.session_state.plot1:
-        st.pyplot(st.session_state.plot1)
-
     if st.session_state.plot2:
         st.pyplot(st.session_state.plot2)
 
