@@ -45,10 +45,12 @@ def main():
     # Add an image
 #    st.image("./images/logo_twitter_banner_faint.jpg", caption="<a href="https://www.ergodicityeconomics.com" target="_blank">Part of the ergodicity economics project.</a>", unsafe_allow_html=True", use_column_width=True)
 #    st.image("./images/logo_twitter_banner_faint.jpg", caption='<a href="https://www.ergodicityeconomics.com" target="_blank"></a>', unsafe_allow_html=True, use_column_width=True)
-    st.image("./images/logo_twitter_banner_faint.jpg", use_column_width=True)
+#    st.image("./images/logo_twitter_banner_faint.jpg", use_column_width=True)
+#    st.markdown('<a href="https://www.ergodicityeconomics.com" target="_blank">Part of the ergodicity economics project.</a>', unsafe_allow_html=True)
+
+    st.image("./images/logo_twitter_banner_faint.jpg", use_container_width=True)
     st.markdown('<a href="https://www.ergodicityeconomics.com" target="_blank">Part of the ergodicity economics project.</a>', unsafe_allow_html=True)
 
-    
     # User inputs
     sigma = st.slider('Volatility:', min_value=0.0, max_value=.5, step=.01, value=.15)
     mu_e = st.slider('Extra growth:', min_value=-0.1, max_value=.1, step=.01, value=.0)
@@ -81,8 +83,10 @@ def main():
         plt.legend()
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
+#        ax.set_xlim(start_pay,end_pay)
+#        st.pyplot(fig)
         ax.set_xlim(start_pay,end_pay)
-        st.pyplot(fig)
+        st.pyplot(fig, use_container_width=True)
 
         count_below_DB = np.sum(100*S[:,-1]/salary < DB_pension)
         percentage_poorer=100.*count_below_DB/N
