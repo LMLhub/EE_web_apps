@@ -73,9 +73,14 @@ def main():
         # Plot results
 #        st.subheader('Accrued retirement income')
         fig, ax=plt.subplots()
+        # Plot a subset of simulated paths in grey to avoid distracting color cycling
         for n in range(FEW):
-            ax.plot(time,100*S[n,:]/salary,linewidth=.5,alpha=.5)
-        plt.axhline(DB_pension,color='k',linestyle=':',label=f'Defined-benefit level, {DB_pension:.0f}% of working income')
+            ax.plot(time, 100*S[n, :]/salary, color='0.7', linewidth=.6, alpha=.6)
+
+        # Plot the median trajectory over time in blue (interpreting "media" as "median")
+        median_traj = np.median(100*S/salary, axis=0)
+        ax.plot(time, median_traj, color='tab:blue', linewidth=2, label='Median outcome')
+        plt.axhline(DB_pension, color='k', linestyle=':', label=f'Defined-benefit level, {DB_pension:.0f}% of working income')
         
         plt.xlabel('Age (years)')
         plt.ylabel('Accrued retirement income (% of working income)')
