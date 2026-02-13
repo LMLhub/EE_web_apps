@@ -58,7 +58,7 @@ def main():
         plt.semilogy(results_df['t'], np.exp(results_df['t']*gt),color='green')        
         plt.xlabel('time step (round)')
         plt.ylabel('wealth')
-        st.pyplot(plt)
+        st.pyplot(fig)
         
 if __name__ == '__main__':
     main()

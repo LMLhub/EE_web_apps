@@ -49,7 +49,7 @@ def main():
         plt.semilogy(t, np.exp(t*gt),color='green')        
         plt.xlabel('time step (round)')
         plt.ylabel('wealth')
-        st.pyplot(plt)
+        st.pyplot(fig)
         
 if __name__ == '__main__':
     main()

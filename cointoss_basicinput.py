@@ -53,11 +53,12 @@ def main():
 
         # Plot capital over time
         st.subheader('Capital Over Time')
-        plt.plot(results_df['Toss'], results_df['Capital After Toss'])
-        plt.xlabel('Number of Tosses')
-        plt.ylabel('Capital')
-        plt.grid()
-        st.pyplot(plt)
+        fig, ax = plt.subplots()
+        ax.plot(results_df['Toss'], results_df['Capital After Toss'])
+        ax.set_xlabel('Number of Tosses')
+        ax.set_ylabel('Capital')
+        ax.grid()
+        st.pyplot(fig)
 
 if __name__ == '__main__':
     main()

@@ -55,7 +55,7 @@ def main():
     sigma = st.slider('Volatility:', min_value=0.0, max_value=.5, step=.01, value=.15)
     mu_e = st.slider('Extra growth:', min_value=-0.1, max_value=.1, step=.01, value=.0)
 #    salary = st.slider('Monthly salary:', min_value=0, max_value=20000, step=100, value=1000)
-    contribution_perc = st.slider('Pension contribution (\% of income):', min_value=0, max_value=100, step=1, value=20)
+    contribution_perc = st.slider('Pension contribution (% of income):', min_value=0, max_value=100, step=1, value=20)
     start_pay = st.slider('Start work age:', min_value=20, step=1, value=30,max_value=100)
     end_pay = st.slider('Retirement age:', min_value=start_pay, step=1, value=65,max_value=life_exp)
 #    life_exp = st.slider('Life expectancy:', min_value=40, step=1, max_value=100, value=80)
@@ -102,11 +102,11 @@ def main():
         ninety_perc=ranking[int(N/10)]
         ninety_nine_perc=ranking[int(N/100)]
         st.write(f"{percentage_poorer:.0f} out of 100 retirees are worse off under defined contributions.")
-        st.write(f"Richest 1\%: more than {one_perc:.0f}% of working income.")
-        st.write(f"Richest 10\%: more than {ten_perc:.0f}% of working income.")
+        st.write(f"Richest 1%: more than {one_perc:.0f}% of working income.")
+        st.write(f"Richest 10%: more than {ten_perc:.0f}% of working income.")
         st.write(f"Median: {median:.0f}% of working income.")
-        st.write(f"Poorest 10\%: less than {ninety_perc:.0f}% of working income.")
-        st.write(f"Poorest 1\%: less than {ninety_nine_perc:.0f}% of working income.")
+        st.write(f"Poorest 10%: less than {ninety_perc:.0f}% of working income.")
+        st.write(f"Poorest 1%: less than {ninety_nine_perc:.0f}% of working income.")
 if __name__ == '__main__':
     main()
 

@@ -87,7 +87,7 @@ def main():
         plt.semilogy(t,np.exp(t2*(p*np.log(1-c))), color='black', linewidth=1, linestyle=':',alpha=1,label='time average uninsured')
         plt.xlabel('time step (round)')
         plt.ylabel('wealth')
-        st.pyplot(plt)
+        st.pyplot(fig)
 
 if __name__ == '__main__':
     main()
