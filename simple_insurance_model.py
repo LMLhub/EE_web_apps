@@ -4,11 +4,47 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
-from scipy.optimize import root_scalar
 
 
 def min_func(x, w, p, risk):
     return p * np.log((w + x - risk)/w) + (1-p)*np.log((w + x)/w) if w + x - risk > 0 else -np.inf
+
+
+def brentq(f, a, b, args=(), xtol=1e-12, maxiter=500):
+    """Simple Brent's method root finder (replaces scipy.optimize.root_scalar)."""
+    fa, fb = f(a, *args), f(b, *args)
+    if fa * fb > 0:
+        raise ValueError("f(a) and f(b) must have opposite signs")
+    if abs(fa) < abs(fb):
+        a, b, fa, fb = b, a, fb, fa
+    c, fc = a, fa
+    mflag = True
+    s = b
+    d = 0.0
+    for _ in range(maxiter):
+        if abs(b - a) < xtol:
+            break
+        if fa != fc and fb != fc:
+            s = (a*fb*fc/((fa-fb)*(fa-fc)) + b*fa*fc/((fb-fa)*(fb-fc)) + c*fa*fb/((fc-fa)*(fc-fb)))
+        else:
+            s = b - fb*(b-a)/(fb-fa)
+        cond1 = not ((3*a+b)/4 < s < b or b < s < (3*a+b)/4)
+        cond2 = mflag and abs(s-b) >= abs(b-c)/2
+        cond3 = (not mflag) and abs(s-b) >= abs(c-d)/2
+        if cond1 or cond2 or cond3:
+            s = (a+b)/2
+            mflag = True
+        else:
+            mflag = False
+        fs = f(s, *args)
+        d, c, fc = c, b, fb
+        if fa*fs < 0:
+            b, fb = s, fs
+        else:
+            a, fa = s, fs
+        if abs(fa) < abs(fb):
+            a, b, fa, fb = b, a, fb, fa
+    return b
 
 def insurance_simulation(T = 1000, N = 5, c = 0.95, p = 0.05):
     #*******************************
@@ -27,7 +63,7 @@ def insurance_simulation(T = 1000, N = 5, c = 0.95, p = 0.05):
         offer = np.zeros(N)
         for n in range(N):
             try:
-                offer[n] = root_scalar(min_func,args=(w_ins[t][n], p, risk_ins), method='brentq', bracket=[0, risk_ins],xtol=2e-300).root
+                offer[n] = brentq(min_func, 0, risk_ins, args=(w_ins[t][n], p, risk_ins))
             except:
                 offer[n] = np.inf
         offer[i] = np.inf     #exclude self-insurance
