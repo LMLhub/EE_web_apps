@@ -1,0 +1,10 @@
+name: env-ee-web-apps
+channels:
+- conda-forge
+dependencies:
+- ca-certificates=2026.5.20
+- certifi=2026.5.20
+- matplotlib=3.10.9
+- openssl=3.6.2
+- python=3.12.13
+- streamlit=1.58.0
