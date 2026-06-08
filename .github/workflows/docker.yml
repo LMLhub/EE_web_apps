@@ -1,4 +1,4 @@
-- name: Show repo contents
+name: Show repo contents
   run: |
     pwd
     find . -maxdepth 3
