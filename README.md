@@ -82,3 +82,15 @@ streamlit run 'cointoss_basicinput.py'
 [Streamlit homepage](https://streamlit.io/)
 [Streamlit installation guide](https://docs.streamlit.io/library/get-started/installation)
 [Streamlit documentation](https://docs.streamlit.io/)
+
+## URLs for deployed self-hosted apps
+        * [https://apps.ergodicityeconomics.com/brussels-experiment](https://apps.ergodicityeconomics.com/brussels-experiment)
+        * [https://apps.ergodicityeconomics.com/cointoss-scan-n](https://apps.ergodicityeconomics.com/cointoss-scan-n)
+        * [https://apps.ergodicityeconomics.com/cointoss-basic-input](https://apps.ergodicityeconomics.com/cointoss-basic-input)
+        * [https://apps.ergodicityeconomics.com/cointoss-scan-t](https://apps.ergodicityeconomics.com/cointoss-scan-t)
+        * [https://apps.ergodicityeconomics.com/contribution-benefits](https://apps.ergodicityeconomics.com/contribution-benefits)
+        * [https://apps.ergodicityeconomics.com/cooperating-coin)[https://apps.ergodicityeconomics.com/cooperating-coin]
+        * [https://apps.ergodicityeconomics.com/insurance-experiment-arne](https://apps.ergodicityeconomics.com/insurance-experiment-arne)
+        * [https://apps.ergodicityeconomics.com/insurance-experiment-original](https://apps.ergodicityeconomics.com/insurance-experiment-original)
+        * [https://apps.ergodicityeconomics.com/simple-insurance-model](https://apps.ergodicityeconomics.com/simple-insurance-model)
+        * [https://apps.ergodicityeconomics.com/utility-losers](https://apps.ergodicityeconomics.com/utility-losers)
