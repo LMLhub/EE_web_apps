@@ -17,9 +17,9 @@ We're excited to guide you through this intriguing journey into the intersection
 
 The [London Boundary Experiment](london_experiment/README.md) is a standalone browser app for additive gambles across no-boundary, upper-boundary, and lower-boundary settings. It includes guided practice, a short demo, the full experiment, choice diagnostics, and clearly labelled hypothetical bonuses. No money is paid.
 
-**[Download the ready-to-run ZIP](london_experiment/output/Boundary-Experiment-v1.2.0.zip?raw=true)**, extract the entire folder, and open `index.html` in Chrome. The app works offline without Python, Streamlit, Node.js, or package installation. Results stay in the browser unless downloaded as CSV or JSON.
+**[Browse the full app source](london_experiment/)**. The experiment is ready for static web hosting: serve `index.html`, `styles.css`, `engine.js`, and `app.js` together. It needs no build step, Python, Streamlit, or backend. See the [hosting instructions](london_experiment/README.md#host-online) for deployment settings and data storage behavior, and the [app README](london_experiment/README.md) for the protocol, bonus calculation, and tests.
 
-The source and optional Node.js server are in [`london_experiment/`](london_experiment/). See its [README](london_experiment/README.md) for the protocol, bonus calculation, and test instructions.
+For an offline copy, **[download the ready-to-run ZIP](london_experiment/output/Boundary-Experiment-v1.2.0.zip?raw=true)**, extract the entire folder, and open `index.html` in Chrome. Results stay in the browser unless downloaded as CSV or JSON.
 
 ## dependencies
 ### About the Simulations

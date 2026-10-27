@@ -1,6 +1,6 @@
 # The Boundary Experiment
 
-A small, dependency-free local app based on the supplied additive gambles and the Qualtrics survey **Experiment Boundaries 2023 – APP** (`SV_86Wv8Qdsl4r5aKi`), inspected in Chrome on 23 October 2026. The entry modes and local results experience are inspired by [ErgEx](https://apps.ergodicityeconomics.com/ergex/).
+A small, dependency-free browser app that runs locally or on a static web host, based on the supplied additive gambles and the Qualtrics survey **Experiment Boundaries 2023 – APP** (`SV_86Wv8Qdsl4r5aKi`), inspected in Chrome on 23 October 2026. The entry modes and local results experience are inspired by [ErgEx](https://apps.ergodicityeconomics.com/ergex/).
 
 ## Open the app
 
@@ -15,6 +15,23 @@ npm start
 Open **http://127.0.0.1:4173**. The server binds only to this computer. Set `PORT` to use a different port. Stop it with Ctrl+C.
 
 Browser storage is specific to the browser and origin. Opening the file directly and using the HTTP server have separate saved runs. Keep using the same launch method to resume a run. Only the latest run is retained; the app offers an export before replacing it. Version 1.2 keeps existing 1.0 and 1.1 saved runs readable. An untouched 1.0 run adopts scripted learning; a run with recorded decisions retains its original random practice to avoid mixing protocols. Start a new run to apply the new learning protocol to the whole run.
+
+## Host online
+
+The complete, editable app source is committed in this directory. Any static web host can serve it directly.
+
+| Hosting setting | Value |
+| --- | --- |
+| App directory in this repository | `london_experiment/` |
+| Build command | None |
+| Publish directory | `london_experiment/` from the repository root, or `.` if the host's project root is already `london_experiment/` |
+| Entry page | `index.html` |
+| Required runtime files | `index.html`, `styles.css`, `engine.js`, `app.js` |
+| Environment variables / server runtime | None |
+
+For a manual deployment, upload those four runtime files into the same directory on the host and serve that directory over HTTPS. All asset references are relative, so the app works at either the site's root or a subdirectory such as `/london_experiment/`. No routing rewrites are needed. For a deployment that publishes from the repository, select this app's directory rather than the repository root, which also contains the separate Streamlit apps. The ZIP, documentation, tests, and local Node server are optional development/download files and are not needed to run the hosted experiment.
+
+Hosting makes the experiment accessible by URL; it does not add a participant database. Each browser retains its latest run in `localStorage`, and participants can download CSV or JSON results. There is no automatic upload to the researcher. Saved local runs do not transfer to a new hosted URL. Central collection would require a separate submission service and storage.
 
 ## What is preserved
 
