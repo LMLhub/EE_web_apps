@@ -8,10 +8,18 @@ To grasp the depth of these concepts and explore some remarkable findings, we in
 
 ## Simulations and Exploration
 
-Within this repository, we present a collection of simulations designed to illuminate key economic concepts and applied ergodicity principles. These simulations are powered by Streamlit and implemented using Python scripts. You can experience them firsthand on the Ergodicity Economics blog. Additionally, we offer the flexibility to engage with these simulations locally by following the installation instructions provided below.
+Within this repository, we present a collection of simulations designed to illuminate key economic concepts and applied ergodicity principles. The Python simulations are powered by Streamlit. The London Boundary Experiment below also runs directly in a browser. You can experience them firsthand on the Ergodicity Economics blog. Additionally, we offer the flexibility to engage with these simulations locally by following the installation instructions provided below.
 
 We're excited to guide you through this intriguing journey into the intersection of economics and ergodicity.
 
+
+## London Boundary Experiment
+
+The [London Boundary Experiment](london_experiment/README.md) is a standalone browser app for additive gambles across no-boundary, upper-boundary, and lower-boundary settings. It includes guided practice, a short demo, the full experiment, choice diagnostics, and clearly labelled hypothetical bonuses. No money is paid.
+
+**[Download the ready-to-run ZIP](london_experiment/output/Boundary-Experiment-v1.2.0.zip?raw=true)**, extract the entire folder, and open `index.html` in Chrome. The app works offline without Python, Streamlit, Node.js, or package installation. Results stay in the browser unless downloaded as CSV or JSON.
+
+The source and optional Node.js server are in [`london_experiment/`](london_experiment/). See its [README](london_experiment/README.md) for the protocol, bonus calculation, and test instructions.
 
 ## dependencies
 ### About the Simulations

@@ -1,0 +1,23 @@
+THE BOUNDARY EXPERIMENT
+
+QUICK START (MAC, WINDOWS, OR LINUX)
+1. Extract the entire ZIP into a folder.
+2. Open index.html in Chrome (recommended).
+3. Choose Guided tour, Presentation demo, or Full experiment.
+
+Keep index.html, app.js, engine.js, and styles.css together.
+Open the extracted files, not a preview of files inside the ZIP.
+No installation or internet connection is required.
+
+On a Mac, Start Experiment.command is an alternative launcher.
+For an optional local web server, see README.md (Node.js required).
+
+RESULTS
+Results are stored in the browser on that computer. Download CSV or JSON
+from the results screen to keep or share a run. Only the latest run is
+saved; starting a new one offers a download before replacing it.
+
+The bonus is hypothetical. No money is paid.
+The ZIP contains the app and its source code, not any participant results.
+
+VERSION: 1.2.0
